@@ -1,8 +1,8 @@
 # RNM-GA Calibration Library
 
-Library for Automatic Calibration of Ranked Nodes in Bayesian Networks using Genetic Algorithms
+**Library for Automatic Calibration of Ranked Nodes in Bayesian Networks using Genetic Algorithms**
 
-This library provides the full implementation of a method for calibrating Bayesian Networks using the **Ranked Nodes Method (RNM)**. It automates the search for optimal configurations (aggregation function, weights, and variance) using a **Genetic Algorithm (GA)** to minimize the **Brier Score** based on expert-elicited scenarios.
+This library provides the full implementation of a method for calibrating Bayesian Networks using the **Ranked Nodes Method (RNM)**. It automates the search for optimal configurations (**aggregation function, weights, and variance**) using a **Genetic Algorithm (GA)** to minimize the **Brier Score** based on expert-elicited scenarios.
 
 ---
 
@@ -12,12 +12,17 @@ Clone the repository and install required dependencies:
 
 ```bash
 pip install numpy scikit-learn matplotlib pgmpy
-📚 Library Structure
+```
 
+---
+
+## 📚 Library Structure
+
+```
 rankedbn/
 ├── functions/                   # Aggregation and transformation functions (WMEAN, WMIN, etc.)
 │   ├── __init__.py              # Maps function names to implementations
-│   └── mixture.py               # Applies TNormal transformation
+│   └── mixture.py               # Applies TNormal transformation  
 ├── genetic/
 │   └── genetic_algorithm.py     # Genetic Algorithm logic and API
 ├── evaluation/
@@ -28,11 +33,19 @@ rankedbn/
 ├── example/
 │   └── run_example.py           # Example script that runs full calibration and evaluation
 ├── repository.json              # Continuous samples for each linguistic state
-🚀 Usage
-You can use this as a Python library in your own code, or run the example to test everything.
+```
 
-▶️ 1. Import as a Library
+---
 
+## 🚀 Usage
+
+You can use this as a **Python library** in your own code, or run the example to test everything.
+
+---
+
+### ▶️ 1. Import as a Library
+
+```python
 from genetic.genetic_algorithm import run_ga_optimization
 from functions import functions
 from utils.loader import load_repository
@@ -46,31 +59,44 @@ melhor_ind = run_ga_optimization(
     max_gen=10,
     taxa_mutacao=0.1
 )
-▶️ 2. Run the Complete Example
+```
+
+---
+
+### ▶️ 2. Run the Complete Example
+
 To execute the full pipeline (GA + Evaluation + CSV export):
 
+```bash
 python -m example.run_example
+```
+
 This will:
 
-Search for the best configuration (function, weights, variance)
+- 🔍 Search for the best configuration (function, weights, variance)
+- 📋 Print per-scenario probabilities and Brier Scores
+- 💾 Export results to:
+  - `resultados_ag.csv` (AG trace)
+  - `TPN3_melhor_config.csv` (final CPT based on best config)
 
-Print per-scenario probabilities and Brier Scores
+---
 
-Export results to:
+## 📊 Expert Scenarios
 
-resultados_ag.csv (AG trace)
+The `evaluation/scenarios.py` file includes sample data used for validation:
 
-TPN3_melhor_config.csv (final CPT based on best config)
+- `TPN1` to `TPN5` — each list includes parent states and expected output distributions.
+- These are used as targets during optimization.
 
-📊 Expert Scenarios
-The evaluation/scenarios.py file includes sample data used for validation:
+---
 
-TPN1 to TPN5 — each list includes parent states + expected distributions.
+## 📌 Repository Input
 
-These are used as targets during optimization.
+Ensure the file `repository.json` is present.  
+It contains pre-generated continuous samples (`VL`, `L`, `M`, `H`, `VH`) required by the aggregation functions and the TNormal transformation.
 
-📌 Repository Input
-Ensure the file repository.json is present. It contains pre-generated continuous samples (VL, L, M, H, VH) required by the aggregation functions and the TNormal transformation.
+---
 
-📄 License and Citation
-This library is released under the GNU General Public License v3.0.
+## 📄 License and Citation
+
+This library is released under the [GNU General Public License v3.0](LICENSE).
